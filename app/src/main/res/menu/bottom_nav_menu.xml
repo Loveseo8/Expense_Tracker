@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/profile" />
+
+    <item
+        android:id="@+id/navigation_add"
+        android:icon="@drawable/ic_outline_add_24"
+        android:title="@string/add" />
+
+    <item
+        android:id="@+id/navigation_expenses"
+        android:icon="@drawable/ic_baseline_attach_money_24"
+        android:title="@string/expenses" />
+
+</menu>

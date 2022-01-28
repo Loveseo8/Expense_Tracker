@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Expense Tracker</string>
     <string name="expense_tracker">Expense Tracker</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="profile">Profile</string>
+    <string name="add">Add</string>
+    <string name="expenses">Expenses</string>
 </resources>
