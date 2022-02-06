@@ -5,13 +5,11 @@ public class User {
     private String username;
     private String email;
     private String profilePicture;
-    private int points;
 
-    public User(String username, String email, String profilePicture, int points) {
+    public User(String username, String email, String profilePicture) {
         this.username = username;
         this.email = email;
         this.profilePicture = profilePicture;
-        this.points = points;
     }
 
     public User() {

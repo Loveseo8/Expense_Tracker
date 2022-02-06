@@ -1,4 +1,4 @@
-package com.akree.expensetracker.ui.add;
+package com.akree.expensetracker.ui.gallery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,23 +12,24 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.akree.expensetracker.databinding.FragmentAddBinding;
+import com.akree.expensetracker.R;
+import com.akree.expensetracker.databinding.FragmentGalleryBinding;
 
-public class AddFragment extends Fragment {
+public class GalleryFragment extends Fragment {
 
-    private AddViewModel addViewModel;
-    private FragmentAddBinding binding;
+    private GalleryViewModel galleryViewModel;
+    private FragmentGalleryBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        addViewModel =
-                new ViewModelProvider(this).get(AddViewModel.class);
+        galleryViewModel =
+                new ViewModelProvider(this).get(GalleryViewModel.class);
 
-        binding = FragmentAddBinding.inflate(inflater, container, false);
+        binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        addViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textGallery;
+        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

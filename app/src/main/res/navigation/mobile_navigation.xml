@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_expenses">
+    app:startDestination="@+id/nav_home">
 
     <fragment
-        android:id="@+id/navigation_profile"
-        android:name="com.akree.expensetracker.ui.profile.ProfileFragment"
-        android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        android:id="@+id/nav_home"
+        android:name="com.akree.expensetracker.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_add"
-        android:name="com.akree.expensetracker.ui.add.AddFragment"
-        android:label="Add"
-        tools:layout="@layout/fragment_add" />
+        android:id="@+id/nav_gallery"
+        android:name="com.akree.expensetracker.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/navigation_expenses"
-        android:name="com.akree.expensetracker.ui.expenses.ExpensesFragment"
-        android:label="Expenses"
-        tools:layout="@layout/fragment_expenses" />
+        android:id="@+id/nav_slideshow"
+        android:name="com.akree.expensetracker.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
 </navigation>

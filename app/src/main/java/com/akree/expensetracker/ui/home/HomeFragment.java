@@ -1,4 +1,4 @@
-package com.akree.expensetracker.ui.expenses;
+package com.akree.expensetracker.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,23 +12,24 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.akree.expensetracker.databinding.FragmentExpensesBinding;
+import com.akree.expensetracker.R;
+import com.akree.expensetracker.databinding.FragmentHomeBinding;
 
-public class ExpensesFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
-    private ExpensesViewModel expensesViewModel;
-    private FragmentExpensesBinding binding;
+    private HomeViewModel homeViewModel;
+    private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        expensesViewModel =
-                new ViewModelProvider(this).get(ExpensesViewModel.class);
+        homeViewModel =
+                new ViewModelProvider(this).get(HomeViewModel.class);
 
-        binding = FragmentExpensesBinding.inflate(inflater, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        expensesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textHome;
+        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

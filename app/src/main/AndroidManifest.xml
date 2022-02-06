@@ -12,9 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseTracker">
         <activity
-            android:name=".NavigationActivity"
+            android:name=".NavActivity"
             android:exported="false"
-            android:label="@string/title_activity_navigation" />
+            android:label="@string/title_activity_nav"
+            android:theme="@style/Theme.ExpenseTracker.NoActionBar" />
         <activity
             android:name=".BaseActivity"
             android:exported="false" />

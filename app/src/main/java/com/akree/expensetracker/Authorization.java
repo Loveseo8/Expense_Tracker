@@ -40,7 +40,7 @@ public class Authorization extends AppCompatActivity {
 
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
 
-            startActivity(new Intent(Authorization.this, NavigationActivity.class));
+            startActivity(new Intent(Authorization.this, BaseActivity.class));
             finish();
 
         }
@@ -108,9 +108,9 @@ public class Authorization extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
-                    FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(username.getText().toString(), email.getText().toString(), "", 100));
+                    FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(username.getText().toString(), email.getText().toString(), ""));
 
-                    startActivity(new Intent(Authorization.this, NavigationActivity.class));
+                    startActivity(new Intent(Authorization.this, BaseActivity.class));
 
                     Toast.makeText(Authorization.this, "Signed Up successfully", Toast.LENGTH_SHORT).show();
 
@@ -131,7 +131,7 @@ public class Authorization extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
-                    startActivity(new Intent(Authorization.this, NavigationActivity.class));
+                    startActivity(new Intent(Authorization.this, BaseActivity.class));
 
                     Toast.makeText(Authorization.this, "Logged In successfully", Toast.LENGTH_SHORT).show();
 

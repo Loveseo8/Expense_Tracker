@@ -1,4 +1,4 @@
-package com.akree.expensetracker.ui.profile;
+package com.akree.expensetracker.ui.slideshow;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,23 +12,24 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.akree.expensetracker.databinding.FragmentProfileBinding;
+import com.akree.expensetracker.R;
+import com.akree.expensetracker.databinding.FragmentSlideshowBinding;
 
-public class ProfileFragment extends Fragment {
+public class SlideshowFragment extends Fragment {
 
-    private ProfileViewModel profileViewModel;
-    private FragmentProfileBinding binding;
+    private SlideshowViewModel slideshowViewModel;
+    private FragmentSlideshowBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                new ViewModelProvider(this).get(ProfileViewModel.class);
+        slideshowViewModel =
+                new ViewModelProvider(this).get(SlideshowViewModel.class);
 
-        binding = FragmentProfileBinding.inflate(inflater, container, false);
+        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        profileViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textSlideshow;
+        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -1,16 +1,16 @@
-package com.akree.expensetracker.ui.expenses;
+package com.akree.expensetracker.ui.slideshow;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ExpensesViewModel extends ViewModel {
+public class SlideshowViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ExpensesViewModel() {
+    public SlideshowViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is expenses fragment");
+        mText.setValue("This is slideshow fragment");
     }
 
     public LiveData<String> getText() {
