@@ -1,18 +1,26 @@
 package com.akree.expensetracker;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,15 +29,45 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.akree.expensetracker.databinding.ActivityNavBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
 
 public class NavActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavBinding binding;
+    DatabaseReference databaseReference;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String category = "Transport";
+    String date = "";
+    String type = "Income";
+    Double bud = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("user/" + user.getUid() + "/expenses");
+
+        FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                bud = (double) snapshot.getValue(User.class).getBudget();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         binding = ActivityNavBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -70,19 +108,94 @@ public class NavActivity extends AppCompatActivity {
         final EditText amount = dialogView.findViewById(R.id.amount);
         final Spinner type_spinner = dialogView.findViewById(R.id.type_spinner);
         final ChipGroup chip_group_categories = dialogView.findViewById(R.id.chip_group_categories);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        Chip newChip = (Chip) inflater.inflate(R.layout.layout_chip_entry, chip_group_categories, false);
-        newChip.setText("aaaa");
-        chip_group_categories.addView(newChip);
+        final TextView choose_date = dialogView.findViewById(R.id.choose_date);
+        final Button add = dialogView.findViewById(R.id.button_add);
+
+        final AlertDialog b = dialogBuilder.create();
+        b.show();
+
+        String [] categories = {"Food", "Games", "Clothes", "Salary", "Transport"};
+
+        for (int i = 0; i < categories.length; i++){
+
+            LayoutInflater inflater = LayoutInflater.from(this);
+
+            Chip newChip = (Chip) inflater.inflate(R.layout.layout_chip_entry, chip_group_categories, false);
+
+            newChip.setText(categories[i]);
+            newChip.setCloseIconVisible(false);
+            chip_group_categories.addView(newChip);
+
+        }
 
         String [] types = {"Income", "Outcome"};
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, types);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type_spinner.setAdapter(arrayAdapter);
 
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String a = amount.getText().toString();
+
+                if (TextUtils.isEmpty(a)) {
+
+                    amount.setError("Enter amount of money!");
+
+                } else {
+
+                    databaseReference.child(a).setValue(new Expense(Double.parseDouble(a), category, date, type));
+
+                    if (type.equals("Income")) FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud + Double.parseDouble(a));
+
+                    else FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud - Double.parseDouble(a));
+
+                   b.dismiss();
+                }
+
+            }
+
+        });
+
+        choose_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dataPickerDialog = new DatePickerDialog(NavActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+                        i1++;
+                        String x = "";
+
+                        if (i1 < 10) x = "0";
+
+
+                        date = i2 + "." + i1 + "." + i;
+
+                        choose_date.setText(i2 + "." + x + i1 + "." + i);
+                    }
+                }, mYear, mMonth, mDay);
+
+                dataPickerDialog.show();
+
+            }
+        });
+
+        
+
         type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                type = types[i];
 
             }
 
@@ -91,10 +204,6 @@ public class NavActivity extends AppCompatActivity {
 
             }
         });
-
-
-        final AlertDialog b = dialogBuilder.create();
-        b.show();
 
     }
 }
