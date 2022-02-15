@@ -18,11 +18,13 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
         viewModel!!.user.observe(viewLifecycleOwner) { user -> updateDataFromUser(user) }
         updateDataFromUser(viewModel!!.user.value)
+
         return binding!!.root
     }
 
@@ -35,15 +37,15 @@ class ProfileFragment : Fragment() {
         if (user != null) {
             binding!!.pfUserNameMsg.text = user.username
             binding!!.pfUserEmailMsg.text = user.email
-            if (user.profilePicture.isEmpty()) {
-                val nameParts = user.username.split("\"\\\\s+\"").toTypedArray()
-                val nameInitials = StringBuilder()
-                for (part in nameParts) {
-                    nameInitials.append(part[0])
-                }
-                binding!!.pfAvatarView.avatarInitials =
-                    nameInitials.toString().uppercase(Locale.getDefault())
-            } else {
+
+            val nameParts = user.username.split("\"\\\\s+\"").toTypedArray()
+            val nameInitials = StringBuilder()
+            for (part in nameParts) {
+                nameInitials.append(part[0])
+            }
+            binding!!.pfAvatarView.avatarInitials = nameInitials.toString().uppercase(Locale.getDefault())
+
+            if (user.profilePicture.isNotEmpty()) {
                 binding!!.pfAvatarView.loadImage(user.profilePicture)
             }
         }
