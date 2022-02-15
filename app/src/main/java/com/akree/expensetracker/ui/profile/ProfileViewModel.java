@@ -28,4 +28,8 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<User> getUser() {
         return userData;
     }
+
+    public void setUser(User user) {
+        userData.setValue(user);
+    }
 }
