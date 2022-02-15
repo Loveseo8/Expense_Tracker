@@ -55,7 +55,7 @@ public class BaseActivity extends AppCompatActivity {
                     } else {
 
                         budget_set.edit().putInt("set", 1).commit();
-                        databaseReference.child("budget").setValue(amount);
+                        databaseReference.child("budget").setValue(Double.parseDouble(amount));
                         startActivity(new Intent(BaseActivity.this, NavActivity.class));
                         finish();
 
