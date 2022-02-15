@@ -5,14 +5,24 @@ public class User {
     private String username;
     private String email;
     private String profilePicture;
+    private double budget;
 
-    public User(String username, String email, String profilePicture) {
+    public User(String username, String email, String profilePicture, double budget) {
         this.username = username;
         this.email = email;
         this.profilePicture = profilePicture;
+        this.budget = budget;
     }
 
     public User() {
+    }
+
+    public double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(double budget) {
+        this.budget = budget;
     }
 
     public String getUsername() {

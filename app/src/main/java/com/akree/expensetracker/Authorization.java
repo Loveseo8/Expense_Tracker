@@ -108,7 +108,7 @@ public class Authorization extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
-                    FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(username.getText().toString(), email.getText().toString(), ""));
+                    FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(username.getText().toString(), email.getText().toString(), "", 0));
 
                     startActivity(new Intent(Authorization.this, BaseActivity.class));
 
