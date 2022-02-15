@@ -14,8 +14,7 @@
         <activity
             android:name=".NavActivity"
             android:exported="false"
-            android:label="@string/title_activity_nav"
-            android:theme="@style/Theme.ExpenseTracker.NoActionBar" />
+            android:label="@string/title_activity_nav" />
         <activity
             android:name=".BaseActivity"
             android:exported="false" />
