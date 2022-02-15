@@ -1,13 +1,16 @@
 package com.akree.expensetracker.ui.profile
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.akree.expensetracker.Authorization
 import com.akree.expensetracker.User
 import com.akree.expensetracker.databinding.FragmentProfileBinding
+import com.google.firebase.auth.FirebaseAuth
 import io.getstream.avatarview.coil.loadImage
 import java.lang.StringBuilder
 import java.util.*
@@ -24,6 +27,8 @@ class ProfileFragment : Fragment() {
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
         viewModel!!.user.observe(viewLifecycleOwner) { user -> updateDataFromUser(user) }
         updateDataFromUser(viewModel!!.user.value)
+
+        connectActionHandlers()
 
         return binding!!.root
     }
@@ -48,6 +53,15 @@ class ProfileFragment : Fragment() {
             if (user.profilePicture.isNotEmpty()) {
                 binding!!.pfAvatarView.loadImage(user.profilePicture)
             }
+        }
+    }
+
+    private fun connectActionHandlers() {
+        binding?.pfLogoutBtn!!.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+
+            startActivity(Intent(activity, Authorization::class.java))
+            activity?.finish()
         }
     }
 }
