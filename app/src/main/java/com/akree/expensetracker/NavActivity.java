@@ -2,7 +2,6 @@ package com.akree.expensetracker;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.Menu;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -39,8 +38,6 @@ public class NavActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_profile, R.id.nav_statistics, R.id.nav_expenses)
                 .setOpenableLayout(drawer)
