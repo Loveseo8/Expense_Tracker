@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.statistics.StatisticsFragment">
+    tools:context=".ui.profile.ProfileFragment">
 
     <com.google.android.material.card.MaterialCardView
         style="@style/Widget.Material3.CardView.Filled"
@@ -27,6 +27,8 @@
                 android:id="@+id/pf_avatar_view"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                app:avatarViewInitials="TA"
+                app:avatarViewBorderWidth="0dp"
                 app:avatarViewInitialsTextSize="16sp"
                 app:avatarViewInitialsTextSizeRatio="0.33"
                 app:avatarViewInitialsTextStyle="bold" />

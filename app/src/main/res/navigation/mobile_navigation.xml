@@ -7,13 +7,14 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.akree.expensetracker.ui.statistics.StatisticsFragment"
+        android:name="com.akree.expensetracker.ui.profile.ProfileFragment"
+
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/nav_statistics"
-        android:name="com.akree.expensetracker.ui.profile.ProfileFragment"
+        android:name="com.akree.expensetracker.ui.statistics.StatisticsFragment"
         android:label="@string/statistics"
         tools:layout="@layout/fragment_statistics" />
 
