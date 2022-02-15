@@ -1,25 +1,20 @@
 package com.akree.expensetracker.ui.profile
 
-import android.R.attr.data
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import coil.Coil
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.request.SuccessResult
 import com.akree.expensetracker.Authorization
 import com.akree.expensetracker.R
 import com.akree.expensetracker.User
@@ -29,8 +24,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import io.getstream.avatarview.coil.loadImage
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -107,6 +100,32 @@ class ProfileFragment : Fragment() {
             intent.action = Intent.ACTION_PICK
 
             resultLauncher.launch(intent)
+        }
+
+        binding?.pfAddCategoryBtn!!.setOnClickListener {
+            val dialogBuilder = android.app.AlertDialog.Builder(requireContext())
+            val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.add_category_dialog, null)
+            dialogBuilder.setView(dialogView)
+
+            val dialog = dialogBuilder.create()
+
+            val addBtn = dialogView.findViewById<Button>(R.id.button_add_c)
+            addBtn.setOnClickListener {
+                val categoryName = dialogView.findViewById<EditText>(R.id.category_name_et).text.toString()
+
+                if (categoryName.isNotEmpty()) {
+                    val categoryList = viewModel?.user?.value!!.categories
+                    categoryList.add(categoryName)
+
+                    FirebaseDatabase.getInstance()
+                        .getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid + "/categories")
+                        .setValue(categoryList)
+                }
+
+                dialog.dismiss()
+            }
+
+            dialog.show()
         }
     }
 
