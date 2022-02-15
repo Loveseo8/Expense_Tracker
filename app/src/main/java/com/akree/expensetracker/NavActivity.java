@@ -16,11 +16,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.akree.expensetracker.ui.profile.ProfileViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -37,7 +39,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class NavActivity extends AppCompatActivity {
 
@@ -45,10 +49,10 @@ public class NavActivity extends AppCompatActivity {
     private ActivityNavBinding binding;
     DatabaseReference databaseReference;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String category = "";
     String date = "";
     String type = "Income";
     Double bud = 0.0;
+    List<String> cat = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +64,11 @@ public class NavActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 bud = (double) snapshot.getValue(User.class).getBudget();
+                cat = snapshot.getValue(User.class).getCategories();
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
 
 
@@ -80,12 +83,14 @@ public class NavActivity extends AppCompatActivity {
                 showAddExpenseDialog();
             }
         });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_profile, R.id.nav_statistics, R.id.nav_expenses)
                 .setOpenableLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_nav);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -114,15 +119,13 @@ public class NavActivity extends AppCompatActivity {
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-        String [] categories = {"Food", "Games", "Clothes", "Salary", "Transport"};
-
-        for (int i = 0; i < categories.length; i++){
+        for (int i = 0; i < cat.size(); i++){
 
             LayoutInflater inflater = LayoutInflater.from(this);
 
             Chip newChip = (Chip) inflater.inflate(R.layout.layout_chip_entry, chip_group_categories, false);
 
-            newChip.setText(categories[i]);
+            newChip.setText(cat.get(i));
             newChip.setCloseIconVisible(false);
             chip_group_categories.addView(newChip);
 
@@ -145,11 +148,22 @@ public class NavActivity extends AppCompatActivity {
                     amount.setError("Enter amount of money!");
 
                 } else {
+                    Expense expense = new Expense();
+                    expense.setAmount(Double.parseDouble(a));
 
-                    databaseReference.child(a).setValue(new Expense(Double.parseDouble(a), category, date, type));
+                    for (int i = 0; i < chip_group_categories.getChildCount(); i++) {
+                        Chip chip = (Chip)chip_group_categories.getChildAt(i);
+                        if (chip.isChecked() || chip.isSelected()) {
+                            expense.setCategory(chip.getText().toString());
+                        }
+                    }
+
+                    expense.setDate(choose_date.getText().toString());
+                    expense.setType(type);
+
+                    databaseReference.child(a).setValue(expense);
 
                     if (type.equals("Income")) FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud + Double.parseDouble(a));
-
                     else FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud - Double.parseDouble(a));
 
                    b.dismiss();
@@ -171,12 +185,10 @@ public class NavActivity extends AppCompatActivity {
                 DatePickerDialog dataPickerDialog = new DatePickerDialog(NavActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-
                         i1++;
                         String x = "";
 
                         if (i1 < 10) x = "0";
-
 
                         date = i2 + "." + i1 + "." + i;
 
@@ -189,28 +201,14 @@ public class NavActivity extends AppCompatActivity {
             }
         });
 
-
-        chip_group_categories.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(ChipGroup group, int checkedId) {
-
-                category = group.getChildAt(checkedId).toString();
-
-            }
-        });
-
         type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 type = types[i];
-
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) { }
         });
 
     }
