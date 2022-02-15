@@ -45,7 +45,7 @@ public class NavActivity extends AppCompatActivity {
     private ActivityNavBinding binding;
     DatabaseReference databaseReference;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String category = "Transport";
+    String category = "";
     String date = "";
     String type = "Income";
     Double bud = 0.0;
@@ -194,7 +194,7 @@ public class NavActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
 
-                category = categories[checkedId];
+                category = group.getChildAt(checkedId).toString();
 
             }
         });
