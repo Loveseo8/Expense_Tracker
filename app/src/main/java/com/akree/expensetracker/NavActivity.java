@@ -189,7 +189,15 @@ public class NavActivity extends AppCompatActivity {
             }
         });
 
-        
+
+        chip_group_categories.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+
+                category = categories[checkedId];
+
+            }
+        });
 
         type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
