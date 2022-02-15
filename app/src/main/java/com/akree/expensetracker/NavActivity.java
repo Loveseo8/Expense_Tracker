@@ -42,6 +42,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 
 public class NavActivity extends AppCompatActivity {
 
@@ -140,9 +142,7 @@ public class NavActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String a = amount.getText().toString();
-
                 if (TextUtils.isEmpty(a)) {
 
                     amount.setError("Enter amount of money!");
@@ -161,7 +161,9 @@ public class NavActivity extends AppCompatActivity {
                     expense.setDate(choose_date.getText().toString());
                     expense.setType(type);
 
-                    databaseReference.child(a).setValue(expense);
+                    String id = UUID.randomUUID() + expense.getCategory();
+
+                    databaseReference.child(id.toUpperCase(Locale.ROOT)).setValue(expense);
 
                     if (type.equals("Income")) FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud + Double.parseDouble(a));
                     else FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud - Double.parseDouble(a));
