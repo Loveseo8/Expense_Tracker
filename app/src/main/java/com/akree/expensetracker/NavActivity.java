@@ -28,6 +28,7 @@ public class NavActivity extends AppCompatActivity {
         binding = ActivityNavBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //add expenses
         setSupportActionBar(binding.appBarNav.toolbar);
         binding.appBarNav.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,13 +48,6 @@ public class NavActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_nav);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.nav, menu);
-        return true;
     }
 
     @Override
