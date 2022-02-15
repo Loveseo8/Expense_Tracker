@@ -1,17 +1,23 @@
 package com.akree.expensetracker;
 
+import java.util.ArrayList;
+
 public class User {
 
     private String username;
     private String email;
     private String profilePicture;
     private double budget;
+    private ArrayList<String> categories = new ArrayList<>();
 
-    public User(String username, String email, String profilePicture, double budget) {
+
+
+    public User(String username, String email, String profilePicture, double budget, ArrayList<String> categories) {
         this.username = username;
         this.email = email;
         this.profilePicture = profilePicture;
         this.budget = budget;
+        this.categories = categories;
     }
 
     public User() {
