@@ -84,12 +84,11 @@
                 android:text="Categories"
                 android:textStyle="bold"/>
 
-            <LinearLayout
-                android:id="@+id/pf_categories_list"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/pf_categories_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical" />
+                android:layout_marginTop="8dp" />
 
             <FrameLayout
                 android:layout_width="match_parent"

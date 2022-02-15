@@ -21,8 +21,10 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.akree.expensetracker.Authorization
+import com.akree.expensetracker.R
 import com.akree.expensetracker.User
 import com.akree.expensetracker.databinding.FragmentProfileBinding
+import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -74,6 +76,19 @@ class ProfileFragment : Fragment() {
                         binding!!.pfAvatarView.avatarInitials = ""
                         binding!!.pfAvatarView.loadImage(it)
                     }
+            }
+
+            binding!!.pfCategoriesGroup.removeAllViews()
+            for (category in user.categories) {
+                val chip = LayoutInflater.from(requireContext())
+                    .inflate(
+                        R.layout.layout_chip_entry,
+                        binding!!.pfCategoriesGroup,
+                        false
+                    ) as Chip
+
+                chip.text = category
+                binding!!.pfCategoriesGroup?.addView(chip)
             }
         }
     }

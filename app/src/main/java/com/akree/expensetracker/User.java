@@ -1,21 +1,26 @@
 package com.akree.expensetracker;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 public class User {
 
     private String username;
     private String email;
     private String profilePicture;
     private double budget;
+    private List<String> categories = new LinkedList<>();
 
-    public User(String username, String email, String profilePicture, double budget) {
+    public User(String username, String email, String profilePicture, double budget, List<String> categories) {
         this.username = username;
         this.email = email;
         this.profilePicture = profilePicture;
         this.budget = budget;
+        this.categories = categories;
     }
 
-    public User() {
-    }
+    public User() { }
 
     public double getBudget() {
         return budget;
@@ -47,6 +52,14 @@ public class User {
 
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 }
 

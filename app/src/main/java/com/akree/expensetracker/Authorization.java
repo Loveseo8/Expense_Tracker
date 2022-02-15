@@ -17,6 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Authorization extends AppCompatActivity {
 
     private EditText username, email, password;
@@ -108,7 +111,7 @@ public class Authorization extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
-                    FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(username.getText().toString(), email.getText().toString(), "", 0));
+                    FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(username.getText().toString(), email.getText().toString(), "", 0, List.of("Food", "Clothes", "Other", "Transport")));
 
                     startActivity(new Intent(Authorization.this, BaseActivity.class));
 
