@@ -3,20 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ExpenseTracker/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.14427083333333332" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/layout/activity_authorization.xml" value="0.13451086956521738" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/layout/activity_base.xml" value="0.15" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/layout/activity_main.xml" value="0.19882246376811594" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/layout/activity_main2.xml" value="0.25" />
+        <entry key="..\:/ExpenseTracker/app/src/main/res/layout/activity_nav.xml" value="0.128125" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/layout/activity_navigation.xml" value="0.19882246376811594" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/layout/activity_navigation2.xml" value="0.14270833333333333" />
+        <entry key="..\:/ExpenseTracker/app/src/main/res/layout/app_bar_nav.xml" value="0.128125" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/layout/content_nav.xml" value="0.1390625" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/layout/fragment_expenses.xml" value="0.14270833333333333" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/layout/fragment_profile.xml" value="0.14270833333333333" />
+        <entry key="..\:/ExpenseTracker/app/src/main/res/layout/nav_header_nav.xml" value="0.128125" />
+        <entry key="..\:/ExpenseTracker/app/src/main/res/menu/activity_main_drawer.xml" value="0.33" />
         <entry key="..\:/ExpenseTracker/app/src/main/res/menu/bottom_nav_menu.xml" value="0.14270833333333333" />
         <entry key="app/src/main/res/layout/activity_base.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/activity_nav.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/content_nav.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/nav_header_nav.xml" value="0.17119565217391305" />
+        <entry key="..\:/ExpenseTracker/app/src/main/res/menu/nav.xml" value="0.128125" />
       </map>
     </option>
   </component>

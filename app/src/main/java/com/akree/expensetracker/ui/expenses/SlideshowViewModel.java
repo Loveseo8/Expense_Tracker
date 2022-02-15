@@ -1,4 +1,4 @@
-package com.akree.expensetracker.ui.slideshow;
+package com.akree.expensetracker.ui.expenses;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
