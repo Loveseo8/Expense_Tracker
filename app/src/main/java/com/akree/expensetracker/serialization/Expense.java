@@ -1,4 +1,4 @@
-package com.akree.expensetracker;
+package com.akree.expensetracker.serialization;
 
 public class Expense {
 

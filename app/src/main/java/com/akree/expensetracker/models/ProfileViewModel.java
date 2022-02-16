@@ -1,11 +1,11 @@
-package com.akree.expensetracker.ui.profile;
+package com.akree.expensetracker.models;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.akree.expensetracker.User;
+import com.akree.expensetracker.serialization.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
