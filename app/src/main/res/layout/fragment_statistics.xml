@@ -120,4 +120,57 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/sf_incomes_card"
+        style="@style/Widget.Material3.CardView.Elevated"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sf_outcomes_card">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="16dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total incomes:"
+                    android:layout_marginStart="8dp"
+                    android:gravity="start"
+                    style="@style/TextAppearance.Material3.ActionBar.Subtitle"
+                    android:textColor="?attr/colorPrimary" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/sf_total_incomes_msg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0 P"
+                    android:layout_marginStart="8dp"
+                    android:gravity="end"
+                    style="@style/TextAppearance.Material3.ActionBar.Subtitle"
+                    android:textColor="?attr/colorPrimary" />
+            </FrameLayout>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/sf_incomes_chart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="160dp"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

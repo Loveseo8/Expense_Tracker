@@ -75,6 +75,11 @@ public class StatisticsFragment extends Fragment {
         binding.sfOutcomesChart.getAxisLeft().setTextColor(getSecondaryColor());
         binding.sfOutcomesChart.getAxisRight().setTextColor(getSecondaryColor());
         binding.sfOutcomesChart.getDescription().setEnabled(false);
+
+        binding.sfIncomesChart.getXAxis().setTextColor(getSecondaryColor());
+        binding.sfIncomesChart.getAxisLeft().setTextColor(getSecondaryColor());
+        binding.sfIncomesChart.getAxisRight().setTextColor(getSecondaryColor());
+        binding.sfIncomesChart.getDescription().setEnabled(false);
     }
 
     private void updateTimePeriod() {
@@ -83,6 +88,7 @@ public class StatisticsFragment extends Fragment {
 
     private void updateStatisticFromViewModel() {
         updateOutcomes();
+        updateIncomes();
     }
 
     private void updateOutcomes() {
@@ -123,6 +129,46 @@ public class StatisticsFragment extends Fragment {
 
         binding.sfOutcomesChart.setData(new LineData(outcomesDataSet));
         binding.sfOutcomesChart.invalidate();
+    }
+
+    private void updateIncomes() {
+        List<Expense> perMonth = viewModel.getExpenses().getValue().values()
+                .stream().filter(expense -> {
+                    int expenseMonth = Integer.parseInt(expense.getDate().split("\\.")[1]) - 1;
+                    int expenseYear = Integer.parseInt(expense.getDate().split("\\.")[2]);
+                    return expenseMonth == currentMonth &&
+                            expenseYear == currentYear &&
+                            expense.getType().equals("Income");
+                }).collect(Collectors.toList());
+
+        int daysPerMonth = (new GregorianCalendar(currentYear, currentMonth, 1))
+                .getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        ArrayList<Double> days = new ArrayList<>(daysPerMonth);
+        for (int i = 0; i < daysPerMonth; i++) days.add(i, 0.0);
+
+        double totalIncomes = 0.0;
+        for (Expense expense: perMonth) {
+            totalIncomes += expense.getAmount();
+
+            int expenseDay = Integer.parseInt(expense.getDate().split("\\.")[0]);
+            days.set(expenseDay, expense.getAmount() + days.get(expenseDay));
+        }
+        binding.sfTotalIncomesMsg.setText(Double.valueOf(totalIncomes).toString());
+
+        ArrayList<Entry> incomes = new ArrayList<>();
+        for (int i = 0; i < daysPerMonth; i++) {
+            incomes.add(i, new Entry(i + 1, days.get(i).floatValue()));
+        }
+
+        LineDataSet incomesDataSet = new LineDataSet(incomes, "Real incomes");
+        incomesDataSet.setMode(LineDataSet.Mode.LINEAR);
+        incomesDataSet.setDrawCircles(false);
+        incomesDataSet.setColor(getPrimaryColor());
+        incomesDataSet.setDrawValues(false);
+
+        binding.sfIncomesChart.setData(new LineData(incomesDataSet));
+        binding.sfIncomesChart.invalidate();
     }
 
     private int getPrimaryColor() {
