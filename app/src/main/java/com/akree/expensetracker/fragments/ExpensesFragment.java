@@ -27,8 +27,13 @@ public class ExpensesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentExpensesBinding.inflate(inflater, container, false);
-
         viewModel = new ViewModelProvider(this).get(ExpensesViewModel.class);
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         viewModel.getExpenses().observe(getViewLifecycleOwner(), new Observer<Map<String, Expense>>() {
             @Override
             public void onChanged(Map<String, Expense> stringExpenseMap) {
@@ -37,7 +42,7 @@ public class ExpensesFragment extends Fragment {
         });
         updateDataFromViewModel();
 
-        return binding.getRoot();
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
