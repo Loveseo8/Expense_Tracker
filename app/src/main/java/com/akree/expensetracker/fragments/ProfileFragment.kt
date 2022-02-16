@@ -35,14 +35,18 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
-
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+
+        return binding!!.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel!!.user.observe(viewLifecycleOwner) { user -> updateDataFromUser(user) }
         updateDataFromUser(viewModel!!.user.value)
 
         connectActionHandlers()
 
-        return binding!!.root
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {
