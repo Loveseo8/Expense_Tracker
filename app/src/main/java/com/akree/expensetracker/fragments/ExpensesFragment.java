@@ -1,6 +1,7 @@
 package com.akree.expensetracker.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -123,7 +125,9 @@ public class ExpensesFragment extends Fragment {
                 mLayoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new MAdapter(getContext(), expenses);
+                mAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(mAdapter);
+
 
             }
 
