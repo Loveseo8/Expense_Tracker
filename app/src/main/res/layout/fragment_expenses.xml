@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/ef_expected_balance_msg"
                 android:textAlignment="viewEnd"
+                android:layout_marginTop="8dp"
                 android:text="Expected balance: 0 ₽"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
