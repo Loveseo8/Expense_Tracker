@@ -16,7 +16,6 @@ import com.akree.expensetracker.MAdapter;
 import com.akree.expensetracker.R;
 import com.akree.expensetracker.serialization.Expense;
 import com.akree.expensetracker.serialization.User;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -87,7 +86,7 @@ public class ExpensesFragment extends Fragment {
 
     }
 
-    private void getUserData(){
+    private void getUserData() {
 
         FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -106,7 +105,7 @@ public class ExpensesFragment extends Fragment {
 
     }
 
-    private void getExpensesData(){
+    private void getExpensesData() {
 
         expenses.clear();
 
@@ -114,7 +113,7 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot ds : snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
 
                     expenses.add(ds.getValue(Expense.class));
 
