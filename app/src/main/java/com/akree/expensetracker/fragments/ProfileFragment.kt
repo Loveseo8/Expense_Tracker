@@ -85,6 +85,19 @@ class ProfileFragment : Fragment() {
                     ) as Chip
 
                 chip.text = category
+                chip.isCheckable = false
+
+                chip.setOnCloseIconClickListener {
+                    val myself: Chip = it as Chip
+                    val categories = viewModel!!.user.value?.categories
+
+                    categories?.remove(myself.text.toString())
+
+                    FirebaseDatabase.getInstance()
+                        .getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid + "/categories")
+                        .setValue(categories)
+                }
+
                 binding!!.pfCategoriesGroup?.addView(chip)
             }
         }
