@@ -20,7 +20,7 @@
             android:name=".BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".Authorization"
+            android:name=".AuthorizationActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -1,11 +1,10 @@
-package com.akree.expensetracker.ui.profile
+package com.akree.expensetracker.fragments
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +14,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.akree.expensetracker.Authorization
+import com.akree.expensetracker.AuthorizationActivity
 import com.akree.expensetracker.R
-import com.akree.expensetracker.User
+import com.akree.expensetracker.serialization.User
 import com.akree.expensetracker.databinding.FragmentProfileBinding
+import com.akree.expensetracker.models.ProfileViewModel
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -90,7 +90,7 @@ class ProfileFragment : Fragment() {
         binding?.pfLogoutBtn!!.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
-            startActivity(Intent(activity, Authorization::class.java))
+            startActivity(Intent(activity, AuthorizationActivity::class.java))
             activity?.finish()
         }
 

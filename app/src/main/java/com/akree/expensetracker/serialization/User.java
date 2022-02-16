@@ -1,4 +1,4 @@
-package com.akree.expensetracker;
+package com.akree.expensetracker.serialization;
 
 import java.util.Arrays;
 import java.util.LinkedList;

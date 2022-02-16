@@ -1,4 +1,4 @@
-package com.akree.expensetracker.ui.statistics;
+package com.akree.expensetracker.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

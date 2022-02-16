@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.akree.expensetracker.serialization.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -17,10 +19,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class Authorization extends AppCompatActivity {
+public class AuthorizationActivity extends AppCompatActivity {
 
     private EditText username, email, password;
     private Button signUP;
@@ -43,7 +44,7 @@ public class Authorization extends AppCompatActivity {
 
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
 
-            startActivity(new Intent(Authorization.this, BaseActivity.class));
+            startActivity(new Intent(AuthorizationActivity.this, BaseActivity.class));
             finish();
 
         }
@@ -56,7 +57,7 @@ public class Authorization extends AppCompatActivity {
 
                     if (isSigningUp && username.getText().toString().isEmpty()){
 
-                        Toast.makeText(Authorization.this, "Invalid input", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AuthorizationActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
                         return;
 
                     }
@@ -113,12 +114,12 @@ public class Authorization extends AppCompatActivity {
 
                     FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(username.getText().toString(), email.getText().toString(), "", 0, List.of("Food", "Clothes", "Other", "Transport")));
 
-                    startActivity(new Intent(Authorization.this, BaseActivity.class));
+                    startActivity(new Intent(AuthorizationActivity.this, BaseActivity.class));
 
-                    Toast.makeText(Authorization.this, "Signed Up successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AuthorizationActivity.this, "Signed Up successfully", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(Authorization.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AuthorizationActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -134,12 +135,12 @@ public class Authorization extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
-                    startActivity(new Intent(Authorization.this, BaseActivity.class));
+                    startActivity(new Intent(AuthorizationActivity.this, BaseActivity.class));
 
-                    Toast.makeText(Authorization.this, "Logged In successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AuthorizationActivity.this, "Logged In successfully", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(Authorization.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AuthorizationActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
                 }
 

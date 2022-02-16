@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } finally {
 
-                    Intent intent = new Intent(MainActivity.this, Authorization.class);
+                    Intent intent = new Intent(MainActivity.this, AuthorizationActivity.class);
                     startActivity(intent);
                     finish();
 
