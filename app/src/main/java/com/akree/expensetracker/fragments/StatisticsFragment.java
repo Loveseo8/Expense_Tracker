@@ -1,6 +1,7 @@
 package com.akree.expensetracker.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,17 @@ import com.akree.expensetracker.R;
 import com.akree.expensetracker.databinding.FragmentStatisticsBinding;
 import com.akree.expensetracker.models.ExpensesViewModel;
 import com.akree.expensetracker.serialization.Expense;
+import com.google.android.gms.common.util.CollectionUtils;
 
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StatisticsFragment extends Fragment {
     private FragmentStatisticsBinding binding = null;
@@ -58,6 +65,23 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void updateStatisticFromViewModel() {
+        updateOutcomes();
+    }
 
+    private void updateOutcomes() {
+        List<Expense> perMonth = viewModel.getExpenses().getValue().values()
+                .stream().filter(expense -> {
+                    int expenseMonth = Integer.parseInt(expense.getDate().split("\\.")[1]) - 1;
+                    int expenseYear = Integer.parseInt(expense.getDate().split("\\.")[2]);
+                    return expenseMonth == currentMonth &&
+                            expenseYear == currentYear &&
+                            expense.getType().equals("Outcome");
+                }).collect(Collectors.toList());
+
+        double totalOutcomes = 0.0;
+        for (Expense expense: perMonth) {
+            totalOutcomes += expense.getAmount();
+        }
+        binding.sfTotalOutcomesMsg.setText(Double.valueOf(totalOutcomes).toString());
     }
 }
