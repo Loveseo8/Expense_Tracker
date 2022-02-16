@@ -38,7 +38,7 @@ public class MAdapter extends RecyclerView.Adapter<MAdapter.ExpenseViewHolder> {
         holder.category.setText(expenses.get(position).getCategory());
         holder.type.setText(expenses.get(position).getType());
         holder.date.setText(expenses.get(position).getDate());
-        holder.amount.setText((double) expenses.get(position).getAmount());
+        holder.amount.setText(String.valueOf(expenses.get(position).getAmount()));
 
     }
 

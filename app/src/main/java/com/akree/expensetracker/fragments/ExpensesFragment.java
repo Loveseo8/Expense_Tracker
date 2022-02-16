@@ -2,6 +2,7 @@ package com.akree.expensetracker.fragments;
 
 import android.net.MacAddress;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,6 @@ public class ExpensesFragment extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 getUserData();
-                getExpensesData();
 
             }
 
@@ -64,14 +64,12 @@ public class ExpensesFragment extends Fragment {
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 getUserData();
-                getExpensesData();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
                 getUserData();
-                getExpensesData();
 
             }
 
@@ -79,7 +77,6 @@ public class ExpensesFragment extends Fragment {
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 getUserData();
-                getExpensesData();
 
             }
 
@@ -87,7 +84,6 @@ public class ExpensesFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
 
                 getUserData();
-                getExpensesData();
 
             }
         });
@@ -116,6 +112,7 @@ public class ExpensesFragment extends Fragment {
     private void getExpensesData(){
 
         expenses.clear();
+
 
         FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/expenses").addValueEventListener(new ValueEventListener() {
             @Override
