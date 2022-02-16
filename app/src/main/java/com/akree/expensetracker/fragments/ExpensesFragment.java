@@ -48,5 +48,8 @@ public class ExpensesFragment extends Fragment {
 
     private void updateDataFromViewModel() {
         binding.efCurrentBalanceMsg.setText(viewModel.getBudget().getValue().toString());
+
+        List<Expense> expenses = (List<Expense>) viewModel.getExpenses().getValue().values();
+
     }
 }
