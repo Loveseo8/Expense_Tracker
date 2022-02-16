@@ -1,8 +1,10 @@
 package com.akree.expensetracker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -107,6 +109,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     private void handleSignUp(){
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @RequiresApi(api = Build.VERSION_CODES.R)
             @Override
             public void onComplete(@NonNull  Task<AuthResult> task) {
 
