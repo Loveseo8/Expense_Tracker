@@ -1,6 +1,5 @@
 package com.akree.expensetracker.fragments;
 
-import android.net.MacAddress;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.menu.MenuAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +16,7 @@ import com.akree.expensetracker.MAdapter;
 import com.akree.expensetracker.R;
 import com.akree.expensetracker.serialization.Expense;
 import com.akree.expensetracker.serialization.User;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -47,7 +46,6 @@ public class ExpensesFragment extends Fragment {
 
         bud = view.findViewById(R.id.ef_current_balance_msg);
         recyclerView = view.findViewById(R.id.ef_expenses_rv);
-        getUserData();
         getExpensesData();
 
 
@@ -56,7 +54,6 @@ public class ExpensesFragment extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 getUserData();
-                getExpensesData();
 
             }
 
@@ -64,14 +61,12 @@ public class ExpensesFragment extends Fragment {
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 getUserData();
-                getExpensesData();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
                 getUserData();
-                getExpensesData();
 
             }
 
@@ -79,7 +74,6 @@ public class ExpensesFragment extends Fragment {
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 getUserData();
-                getExpensesData();
 
             }
 
@@ -87,7 +81,6 @@ public class ExpensesFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
 
                 getUserData();
-                getExpensesData();
 
             }
         });
