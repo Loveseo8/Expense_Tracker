@@ -34,6 +34,7 @@ public class ExpensesFragment extends Fragment {
                 updateDataFromViewModel();
             }
         });
+        viewModel.getBudget().observe(getViewLifecycleOwner(), aDouble -> binding.efCurrentBalanceMsg.setText(aDouble.toString()));
         updateDataFromViewModel();
 
         return binding.getRoot();
