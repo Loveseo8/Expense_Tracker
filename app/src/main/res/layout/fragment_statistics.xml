@@ -114,6 +114,7 @@
                 android:id="@+id/sf_outcomes_chart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="160dp"
                 android:layout_marginTop="16dp" />
         </LinearLayout>
 
