@@ -59,6 +59,7 @@ public class StatisticsFragment extends Fragment {
         });
         updateStatisticFromViewModel();
 
+        connectActionHandlers();
         initChars();
 
         return binding.getRoot();
@@ -75,11 +76,15 @@ public class StatisticsFragment extends Fragment {
         binding.sfOutcomesChart.getAxisLeft().setTextColor(getSecondaryColor());
         binding.sfOutcomesChart.getAxisRight().setTextColor(getSecondaryColor());
         binding.sfOutcomesChart.getDescription().setEnabled(false);
+        binding.sfOutcomesChart.getAxisLeft().setAxisMinimum(0.0f);
+        binding.sfOutcomesChart.getAxisRight().setAxisMinimum(0.0f);
 
         binding.sfIncomesChart.getXAxis().setTextColor(getSecondaryColor());
         binding.sfIncomesChart.getAxisLeft().setTextColor(getSecondaryColor());
         binding.sfIncomesChart.getAxisRight().setTextColor(getSecondaryColor());
         binding.sfIncomesChart.getDescription().setEnabled(false);
+        binding.sfIncomesChart.getAxisLeft().setAxisMinimum(0.0f);
+        binding.sfIncomesChart.getAxisRight().setAxisMinimum(0.0f);
     }
 
     private void updateTimePeriod() {
@@ -89,6 +94,36 @@ public class StatisticsFragment extends Fragment {
     private void updateStatisticFromViewModel() {
         updateOutcomes();
         updateIncomes();
+    }
+
+    private void connectActionHandlers() {
+        binding.sfNextMonthBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentMonth += 1;
+
+                if(currentMonth == 12) {
+                    currentMonth = 0; currentYear += 1;
+                }
+
+                updateStatisticFromViewModel();
+                updateTimePeriod();
+            }
+        });
+
+        binding.sfPrevMonthBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentMonth -= 1;
+
+                if(currentMonth == -1) {
+                    currentMonth = 11; currentYear -= 1;
+                }
+
+                updateStatisticFromViewModel();
+                updateTimePeriod();
+            }
+        });
     }
 
     private void updateOutcomes() {
