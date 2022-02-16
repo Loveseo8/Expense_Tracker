@@ -1,6 +1,7 @@
 package com.akree.expensetracker.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,16 @@ import com.akree.expensetracker.databinding.FragmentExpensesBinding;
 import com.akree.expensetracker.models.ExpensesViewModel;
 import com.akree.expensetracker.serialization.Expense;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class ExpensesFragment extends Fragment {
     private FragmentExpensesBinding binding = null;
     private ExpensesViewModel viewModel = null;
+
+    private Collection<Expense> expenses = new LinkedList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,5 +58,18 @@ public class ExpensesFragment extends Fragment {
 
     private void updateDataFromViewModel() {
         binding.efCurrentBalanceMsg.setText(viewModel.getBudget().getValue().toString());
+        expenses = viewModel.getExpenses().getValue().values();
+
+        applyFilter();
+    }
+
+    private void applyFilter() {
+
+
+        updateRecyclerView();
+    }
+
+    private void updateRecyclerView() {
+
     }
 }
