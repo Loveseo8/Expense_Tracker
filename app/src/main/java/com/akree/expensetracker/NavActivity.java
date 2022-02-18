@@ -46,12 +46,12 @@ public class NavActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavBinding binding;
-    DatabaseReference databaseReference;
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String date = "";
-    String type = "Income";
-    Double bud = 0.0;
-    List<String> cat = new ArrayList<>();
+    private DatabaseReference databaseReference;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String date = "";
+    private String type = "Income";
+    private Double bud = 0.0;
+    private List<String> cat = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

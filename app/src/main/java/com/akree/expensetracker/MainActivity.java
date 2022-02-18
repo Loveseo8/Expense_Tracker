@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    Thread timer;
+    private Thread timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

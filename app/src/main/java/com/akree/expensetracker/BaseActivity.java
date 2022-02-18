@@ -18,13 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class BaseActivity extends AppCompatActivity {
 
-    Button done;
-    SharedPreferences budget_set;
-    EditText amount_edit_text;
-    String amount;
-    int set;
-    DatabaseReference databaseReference;
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private Button done;
+    private SharedPreferences budget_set;
+    private EditText amount_edit_text;
+    private String amount;
+    private int set;
+    private DatabaseReference databaseReference;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

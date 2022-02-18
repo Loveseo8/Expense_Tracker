@@ -16,8 +16,8 @@ import java.util.List;
 
 public class MAdapter extends RecyclerView.Adapter<MAdapter.ExpenseViewHolder> {
 
-    ArrayList<Expense> expenses = new ArrayList<Expense>();
-    Context context;
+    private ArrayList<Expense> expenses = new ArrayList<Expense>();
+    private Context context;
 
     public MAdapter(Context context, ArrayList<Expense> expenses) {
         this.expenses = expenses;
@@ -50,7 +50,7 @@ public class MAdapter extends RecyclerView.Adapter<MAdapter.ExpenseViewHolder> {
 
     public static class ExpenseViewHolder extends RecyclerView.ViewHolder {
 
-        TextView category, date, amount, type;
+        private TextView category, date, amount, type;
 
         public ExpenseViewHolder(@NonNull View itemView) {
             super(itemView);
