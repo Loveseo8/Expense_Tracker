@@ -16,9 +16,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.akree.expensetracker.AuthorizationActivity
 import com.akree.expensetracker.R
-import com.akree.expensetracker.serialization.User
 import com.akree.expensetracker.databinding.FragmentProfileBinding
 import com.akree.expensetracker.models.ProfileViewModel
+import com.akree.expensetracker.serialization.User
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -31,8 +31,8 @@ class ProfileFragment : Fragment() {
     private var binding: FragmentProfileBinding? = null
     private var viewModel: ProfileViewModel? = null
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
@@ -68,21 +68,21 @@ class ProfileFragment : Fragment() {
 
             if (user.profilePicture.isNotEmpty()) {
                 FirebaseStorage.getInstance()
-                    .reference.child(user.profilePicture)
-                    .downloadUrl.addOnSuccessListener {
-                        binding!!.pfAvatarView.avatarInitials = ""
-                        binding!!.pfAvatarView.loadImage(it)
-                    }
+                        .reference.child(user.profilePicture)
+                        .downloadUrl.addOnSuccessListener {
+                            binding!!.pfAvatarView.avatarInitials = ""
+                            binding!!.pfAvatarView.loadImage(it)
+                        }
             }
 
             binding!!.pfCategoriesGroup.removeAllViews()
             for (category in user.categories) {
                 val chip = LayoutInflater.from(requireContext())
-                    .inflate(
-                        R.layout.layout_chip_entry,
-                        binding!!.pfCategoriesGroup,
-                        false
-                    ) as Chip
+                        .inflate(
+                                R.layout.layout_chip_entry,
+                                binding!!.pfCategoriesGroup,
+                                false
+                        ) as Chip
 
                 chip.text = category
                 chip.isCheckable = false
@@ -94,8 +94,8 @@ class ProfileFragment : Fragment() {
                     categories?.remove(myself.text.toString())
 
                     FirebaseDatabase.getInstance()
-                        .getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid + "/categories")
-                        .setValue(categories)
+                            .getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid + "/categories")
+                            .setValue(categories)
                 }
 
                 binding!!.pfCategoriesGroup?.addView(chip)
@@ -135,8 +135,8 @@ class ProfileFragment : Fragment() {
                     categoryList.add(categoryName)
 
                     FirebaseDatabase.getInstance()
-                        .getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid + "/categories")
-                        .setValue(categoryList)
+                            .getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid + "/categories")
+                            .setValue(categoryList)
                 }
 
                 dialog.dismiss()
@@ -160,32 +160,32 @@ class ProfileFragment : Fragment() {
                 val link = "images/" + UUID.randomUUID()
 
                 FirebaseStorage.getInstance()
-                    .reference.child(link)
-                    .putFile(uri!!).addOnSuccessListener { snapshot ->
-                        snapshot.storage.downloadUrl.addOnSuccessListener {
-                            FirebaseDatabase.getInstance()
-                                .getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid + "/profilePicture")
-                                .setValue(link).addOnSuccessListener {
-                                    Toast.makeText(
-                                        context,
-                                        "Uploading completed",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }.addOnFailureListener {
-                                    Toast.makeText(
-                                        context,
-                                        "Uploading failed",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
+                        .reference.child(link)
+                        .putFile(uri!!).addOnSuccessListener { snapshot ->
+                            snapshot.storage.downloadUrl.addOnSuccessListener {
+                                FirebaseDatabase.getInstance()
+                                        .getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid + "/profilePicture")
+                                        .setValue(link).addOnSuccessListener {
+                                            Toast.makeText(
+                                                    context,
+                                                    "Uploading completed",
+                                                    Toast.LENGTH_LONG
+                                            ).show()
+                                        }.addOnFailureListener {
+                                            Toast.makeText(
+                                                    context,
+                                                    "Uploading failed",
+                                                    Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                            }
+                        }.addOnFailureListener {
+                            Toast.makeText(
+                                    context,
+                                    "Something went wrong",
+                                    Toast.LENGTH_LONG
+                            ).show()
                         }
-                    }.addOnFailureListener {
-                        Toast.makeText(
-                            context,
-                            "Something went wrong",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
             } finally {
                 inputStream?.close()
             }

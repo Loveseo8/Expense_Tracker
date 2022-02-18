@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.akree.expensetracker.serialization.Expense;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MAdapter extends RecyclerView.Adapter<MAdapter.ExpenseViewHolder> {
 
@@ -62,6 +63,11 @@ public class MAdapter extends RecyclerView.Adapter<MAdapter.ExpenseViewHolder> {
 
         }
 
+    }
+
+    public void updateList(List<Expense> list) {
+        expenses = (ArrayList<Expense>) list;
+        notifyDataSetChanged();
     }
 
 }

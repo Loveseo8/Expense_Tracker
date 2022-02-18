@@ -21,11 +21,11 @@ public class ProfileViewModel extends ViewModel {
         FirebaseDatabase.getInstance()
                 .getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                    @Override
-                    public void onSuccess(DataSnapshot dataSnapshot) {
-                        userData.setValue(dataSnapshot.getValue(User.class));
-                    }
-                });
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                userData.setValue(dataSnapshot.getValue(User.class));
+            }
+        });
 
         FirebaseDatabase.getInstance()
                 .getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -36,7 +36,8 @@ public class ProfileViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) { }
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
                 });
     }
 

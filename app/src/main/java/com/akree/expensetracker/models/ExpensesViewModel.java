@@ -25,7 +25,8 @@ public class ExpensesViewModel extends ViewModel {
         public Map<String, Expense> expenses = new HashMap<>();
         public double budget = 0.0;
 
-        public ExpensesList() {}
+        public ExpensesList() {
+        }
 
         public ExpensesList(Map<String, Expense> e, double b) {
             this.expenses = e;
@@ -37,15 +38,15 @@ public class ExpensesViewModel extends ViewModel {
         FirebaseDatabase.getInstance()
                 .getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                    @Override
-                    public void onSuccess(DataSnapshot dataSnapshot) {
-                        ExpensesList el = dataSnapshot.getValue(ExpensesList.class);
-                        if (el != null) {
-                            expenses.setValue(el.expenses);
-                            budget.setValue(el.budget);
-                        }
-                    }
-                });
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                ExpensesList el = dataSnapshot.getValue(ExpensesList.class);
+                if (el != null) {
+                    expenses.setValue(el.expenses);
+                    budget.setValue(el.budget);
+                }
+            }
+        });
 
         FirebaseDatabase.getInstance()
                 .getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -60,7 +61,8 @@ public class ExpensesViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) { }
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
                 });
     }
 

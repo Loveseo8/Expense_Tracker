@@ -1,16 +1,12 @@
 package com.akree.expensetracker.fragments;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,15 +18,10 @@ import com.akree.expensetracker.serialization.Expense;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.google.android.gms.common.util.CollectionUtils;
 
 import java.text.DateFormatSymbols;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
@@ -102,8 +93,9 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View view) {
                 currentMonth += 1;
 
-                if(currentMonth == 12) {
-                    currentMonth = 0; currentYear += 1;
+                if (currentMonth == 12) {
+                    currentMonth = 0;
+                    currentYear += 1;
                 }
 
                 updateStatisticFromViewModel();
@@ -116,8 +108,9 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View view) {
                 currentMonth -= 1;
 
-                if(currentMonth == -1) {
-                    currentMonth = 11; currentYear -= 1;
+                if (currentMonth == -1) {
+                    currentMonth = 11;
+                    currentYear -= 1;
                 }
 
                 updateStatisticFromViewModel();
@@ -143,7 +136,7 @@ public class StatisticsFragment extends Fragment {
         for (int i = 0; i < daysPerMonth; i++) days.add(i, 0.0);
 
         double totalOutcomes = 0.0;
-        for (Expense expense: perMonth) {
+        for (Expense expense : perMonth) {
             totalOutcomes += expense.getAmount();
 
             int expenseDay = Integer.parseInt(expense.getDate().split("\\.")[0]);
@@ -183,7 +176,7 @@ public class StatisticsFragment extends Fragment {
         for (int i = 0; i < daysPerMonth; i++) days.add(i, 0.0);
 
         double totalIncomes = 0.0;
-        for (Expense expense: perMonth) {
+        for (Expense expense : perMonth) {
             totalIncomes += expense.getAmount();
 
             int expenseDay = Integer.parseInt(expense.getDate().split("\\.")[0]);

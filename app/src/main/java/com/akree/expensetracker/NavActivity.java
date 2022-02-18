@@ -14,21 +14,20 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import com.akree.expensetracker.databinding.ActivityNavBinding;
 import com.akree.expensetracker.serialization.Expense;
 import com.akree.expensetracker.serialization.User;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.navigation.NavigationView;
-
-import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.akree.expensetracker.databinding.ActivityNavBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -68,7 +67,8 @@ public class NavActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
 
@@ -119,7 +119,7 @@ public class NavActivity extends AppCompatActivity {
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-        for (int i = 0; i < cat.size(); i++){
+        for (int i = 0; i < cat.size(); i++) {
 
             LayoutInflater inflater = LayoutInflater.from(this);
 
@@ -131,7 +131,7 @@ public class NavActivity extends AppCompatActivity {
 
         }
 
-        String [] types = {"Income", "Outcome"};
+        String[] types = {"Income", "Outcome"};
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, types);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type_spinner.setAdapter(arrayAdapter);
@@ -150,7 +150,7 @@ public class NavActivity extends AppCompatActivity {
                     expense.setAmount(Double.parseDouble(a));
 
                     for (int i = 0; i < chip_group_categories.getChildCount(); i++) {
-                        Chip chip = (Chip)chip_group_categories.getChildAt(i);
+                        Chip chip = (Chip) chip_group_categories.getChildAt(i);
                         if (chip.isChecked() || chip.isSelected()) {
                             expense.setCategory(chip.getText().toString());
                         }
@@ -163,10 +163,12 @@ public class NavActivity extends AppCompatActivity {
 
                     databaseReference.child(id.toUpperCase(Locale.ROOT)).setValue(expense);
 
-                    if (type.equals("Income")) FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud + Double.parseDouble(a));
-                    else FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud - Double.parseDouble(a));
+                    if (type.equals("Income"))
+                        FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud + Double.parseDouble(a));
+                    else
+                        FirebaseDatabase.getInstance().getReference("user/" + user.getUid()).child("budget").setValue(bud - Double.parseDouble(a));
 
-                   b.dismiss();
+                    b.dismiss();
                 }
 
             }
@@ -208,7 +210,8 @@ public class NavActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
 
     }

@@ -1,8 +1,5 @@
 package com.akree.expensetracker;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.akree.expensetracker.serialization.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,7 +45,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         logIn = findViewById(R.id.logintxt);
         inputLayout = findViewById(R.id.inputLayout);
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             startActivity(new Intent(AuthorizationActivity.this, BaseActivity.class));
             finish();
@@ -55,9 +56,9 @@ public class AuthorizationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(email.getText().toString().isEmpty() || password.getText().toString().isEmpty()){
+                if (email.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
 
-                    if (isSigningUp && username.getText().toString().isEmpty()){
+                    if (isSigningUp && username.getText().toString().isEmpty()) {
 
                         Toast.makeText(AuthorizationActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
                         return;
@@ -66,7 +67,7 @@ public class AuthorizationActivity extends AppCompatActivity {
 
                 }
 
-                if (isSigningUp){
+                if (isSigningUp) {
 
                     handleSignUp();
 
@@ -83,7 +84,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (isSigningUp){
+                if (isSigningUp) {
 
                     isSigningUp = false;
                     username.setVisibility(View.GONE);
@@ -106,12 +107,12 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     }
 
-    private void handleSignUp(){
+    private void handleSignUp() {
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @RequiresApi(api = Build.VERSION_CODES.R)
             @Override
-            public void onComplete(@NonNull  Task<AuthResult> task) {
+            public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()) {
 
@@ -130,7 +131,7 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     }
 
-    private void handleLogIn(){
+    private void handleLogIn() {
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

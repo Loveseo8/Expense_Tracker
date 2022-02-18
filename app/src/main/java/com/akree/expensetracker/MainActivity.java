@@ -1,9 +1,9 @@
 package com.akree.expensetracker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     Thread timer;
@@ -13,18 +13,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        timer = new Thread(){
+        timer = new Thread() {
 
             @Override
             public void run() {
                 try {
-                    synchronized (this){
+                    synchronized (this) {
 
-                        if (BuildConfig.DEBUG) wait(5);
-                        else wait(5000);
+                        wait(5000);
 
                     }
-                } catch (InterruptedException e){
+                } catch (InterruptedException e) {
 
                     e.printStackTrace();
 
