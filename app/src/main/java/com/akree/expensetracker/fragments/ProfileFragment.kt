@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.CancellationSignal
+import android.provider.DocumentsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.akree.expensetracker.AuthorizationActivity
 import com.akree.expensetracker.R
 import com.akree.expensetracker.databinding.FragmentProfileBinding
+import com.akree.expensetracker.models.ExpensesViewModel
 import com.akree.expensetracker.models.ProfileViewModel
 import com.akree.expensetracker.serialization.User
 import com.google.android.material.chip.Chip
@@ -24,18 +28,26 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import io.getstream.avatarview.coil.loadImage
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
 
 class ProfileFragment : Fragment() {
     private var binding: FragmentProfileBinding? = null
+
     private var viewModel: ProfileViewModel? = null
+    private var expensesModel: ExpensesViewModel? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
+
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        expensesModel = ViewModelProvider(this)[ExpensesViewModel::class.java]
 
         return binding!!.root
     }
@@ -143,6 +155,49 @@ class ProfileFragment : Fragment() {
             }
 
             dialog.show()
+        }
+
+        binding?.pfExportCsvBtn?.setOnClickListener {
+            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "text/csv"
+            intent.putExtra(Intent.EXTRA_TITLE, "data.csv")
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse("/Documents"))
+
+            csvExportLauncher.launch(intent)
+        }
+    }
+
+    private val csvExportLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val uri: Uri? = result!!.data!!.data
+            val outputFile = context?.contentResolver!!
+                .openFileDescriptor(uri!!, "w")
+
+            if (outputFile != null) {
+                val outputStream = BufferedOutputStream(FileOutputStream(outputFile.fileDescriptor))
+
+                outputStream.write("Type,Date,Category,Amount\n".toByteArray())
+
+                for (expense in expensesModel!!.expenses!!.value!!.values) {
+                    outputStream.write((expense.type + ",").toByteArray())
+                    outputStream.write((expense.date + ",").toByteArray())
+                    outputStream.write((expense.category + ",").toByteArray())
+                    outputStream.write((expense.amount.toString() + "\n").toByteArray())
+                }
+
+                outputStream.flush()
+                outputStream.close()
+
+                Toast.makeText(
+                    requireContext(),
+                    "Exported successfully",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
