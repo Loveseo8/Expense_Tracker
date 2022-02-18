@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -144,6 +146,23 @@ class ProfileFragment : Fragment() {
 
             dialog.show()
         }
+
+        binding?.pfExportCsvBtn?.setOnClickListener {
+            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "text/csv"
+            intent.putExtra(Intent.EXTRA_TITLE, "data.csv")
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse("/Documents"))
+
+            csvExportLauncher.launch(intent)
+        }
+    }
+
+    private val csvExportLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
     }
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
