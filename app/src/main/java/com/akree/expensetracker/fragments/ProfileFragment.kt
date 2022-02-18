@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.CancellationSignal
 import android.provider.DocumentsContract
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +27,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import io.getstream.avatarview.coil.loadImage
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellStyle
+import org.apache.poi.ss.usermodel.FillPatternType
+import org.apache.poi.ss.usermodel.IndexedColors
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.BufferedOutputStream
-import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
@@ -169,6 +172,19 @@ class ProfileFragment : Fragment() {
 
             csvExportLauncher.launch(intent)
         }
+
+        binding?.pfExportXlsBtn?.setOnClickListener {
+            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            intent.putExtra(Intent.EXTRA_TITLE, "data.xlsx")
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse("/Documents"))
+
+            xlsExportLauncher.launch(intent)
+        }
     }
 
     private val csvExportLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -188,6 +204,69 @@ class ProfileFragment : Fragment() {
                     outputStream.write((expense.category + ",").toByteArray())
                     outputStream.write((expense.amount.toString() + "\n").toByteArray())
                 }
+
+                outputStream.flush()
+                outputStream.close()
+
+                Toast.makeText(
+                    requireContext(),
+                    "Exported successfully",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    private val xlsExportLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val uri: Uri? = result!!.data!!.data
+            val outputFile = context?.contentResolver!!
+                .openFileDescriptor(uri!!, "w")
+
+            if (outputFile != null) {
+                val workbook = XSSFWorkbook()
+                val sheet = workbook.createSheet("Account")
+
+                for (i in 0..3) sheet.setColumnWidth(i, 3000)
+
+                val header = sheet.createRow(0)
+
+                val headerStyle: CellStyle = workbook.createCellStyle()
+                headerStyle.fillForegroundColor = IndexedColors.LIGHT_BLUE.getIndex()
+                headerStyle.fillPattern = FillPatternType.SOLID_FOREGROUND
+
+                val font = workbook.createFont()
+                font.fontName = "Arial"
+                font.fontHeightInPoints = 16.toShort()
+                font.bold = true
+                headerStyle.setFont(font)
+
+                for ((ind, el) in arrayListOf("Type", "Date", "Category", " Amount").withIndex()) {
+                    val headerCell: Cell = header.createCell(ind)
+                    headerCell.setCellValue(el)
+                    headerCell.cellStyle = headerStyle
+                }
+
+                for ((ind, el) in expensesModel!!.expenses!!.value!!.values.withIndex()) {
+                    val row = sheet.createRow(ind + 1)
+
+                    var cell = row.createCell(0)
+                    cell.setCellValue(el.type)
+
+                    cell = row.createCell(1)
+                    cell.setCellValue(el.date)
+
+                    cell = row.createCell(2)
+                    cell.setCellValue(el.category)
+
+                    cell = row.createCell(3)
+                    cell.setCellValue(el.amount)
+                }
+
+                val outputStream = BufferedOutputStream(FileOutputStream(outputFile.fileDescriptor))
+
+                workbook.write(outputStream)
+                workbook.close()
 
                 outputStream.flush()
                 outputStream.close()
