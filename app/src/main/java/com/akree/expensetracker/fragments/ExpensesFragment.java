@@ -19,8 +19,10 @@ import com.akree.expensetracker.models.ExpensesViewModel;
 import com.akree.expensetracker.serialization.Expense;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ExpensesFragment extends Fragment {
     private FragmentExpensesBinding binding = null;
@@ -86,6 +88,16 @@ public class ExpensesFragment extends Fragment {
         binding.efExpensesRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new MAdapter(getContext(), expenses);
         binding.efExpensesRv.setAdapter(mAdapter);
+
+        Double disc = viewModel.getExpenses().getValue().values()
+                .stream().filter(expense -> {
+                    int expenseDay = Integer.parseInt(expense.getDate().split("\\.")[0]);
+                    return expenseDay > Calendar.getInstance().get(Calendar.DAY_OF_MONTH) &&
+                            expense.getType().equals("Outcome");
+                }).map(Expense::getAmount)
+                .mapToDouble(a -> a).sum();
+
+        binding.efExpectedBalanceMsg.setText("Expected balance: " + String.valueOf(Math.max(0, viewModel.getBudget().getValue() - disc)));
     }
 
     @Override
