@@ -1,5 +1,6 @@
 package com.akree.expensetracker.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -18,11 +19,15 @@ import com.akree.expensetracker.serialization.Expense;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -76,6 +81,9 @@ public class StatisticsFragment extends Fragment {
         binding.sfIncomesChart.getDescription().setEnabled(false);
         binding.sfIncomesChart.getAxisLeft().setAxisMinimum(0.0f);
         binding.sfIncomesChart.getAxisRight().setAxisMinimum(0.0f);
+
+        binding.sfCategoriesChart.getDescription().setEnabled(false);
+        binding.sfCategoriesChart.setHoleColor(Color.TRANSPARENT);
     }
 
     private void updateTimePeriod() {
@@ -85,6 +93,7 @@ public class StatisticsFragment extends Fragment {
     private void updateStatisticFromViewModel() {
         updateOutcomes();
         updateIncomes();
+        updateCategories();
     }
 
     private void connectActionHandlers() {
@@ -197,6 +206,43 @@ public class StatisticsFragment extends Fragment {
 
         binding.sfIncomesChart.setData(new LineData(incomesDataSet));
         binding.sfIncomesChart.invalidate();
+    }
+
+    private void updateCategories() {
+        List<Expense> perMonth = viewModel.getExpenses().getValue().values()
+                .stream().filter(expense -> {
+                    int expenseMonth = Integer.parseInt(expense.getDate().split("\\.")[1]) - 1;
+                    int expenseYear = Integer.parseInt(expense.getDate().split("\\.")[2]);
+                    return expenseMonth == currentMonth &&
+                            expenseYear == currentYear &&
+                            expense.getType().equals("Outcome");
+                }).collect(Collectors.toList());
+
+        Map<String, Double> amountMap = new HashMap<>();
+        for (Expense e: perMonth) {
+            if (!amountMap.containsKey(e.getCategory())) amountMap.put(e.getCategory(), 0.0);
+            amountMap.put(e.getCategory(), e.getAmount() + amountMap.get(e.getCategory()));
+        }
+
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        for (String type: amountMap.keySet()) {
+            pieEntries.add(new PieEntry(amountMap.get(type).floatValue(), type));
+        }
+
+        ArrayList<Integer> colors = new ArrayList<>();
+        for (int i = 0; i < pieEntries.size(); i++) {
+            if (i % 2 == 0) colors.add(getPrimaryColor());
+            else colors.add(getSecondaryColor());
+        }
+
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Categories");
+        dataSet.setValueTextSize(12.f);
+
+        PieData data = new PieData(dataSet);
+        data.setDrawValues(true);
+
+        binding.sfCategoriesChart.setData(data);
+        binding.sfCategoriesChart.invalidate();
     }
 
     private int getPrimaryColor() {
