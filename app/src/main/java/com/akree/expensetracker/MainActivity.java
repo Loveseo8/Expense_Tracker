@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     synchronized (this) {
 
-                        wait(5000);
+                        if (BuildConfig.DEBUG) wait(5000);
 
                     }
                 } catch (InterruptedException e) {
